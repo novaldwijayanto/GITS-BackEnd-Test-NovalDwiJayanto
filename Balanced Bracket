@@ -1,0 +1,50 @@
+using System;
+using System.Collections.Generic;
+
+class BalancedBrackets
+{
+    static void Main(string[] args)
+    {
+        string input1 = "{ [ ( ) ] }";
+        string input2 = "{ [ ( ] ) }";
+        string input3 = "{ ( ( [ ] ) [ ] ) [ ] }";
+
+        Console.WriteLine(IsBalanced(input1) ? "YES" : "NO");
+        Console.WriteLine(IsBalanced(input2) ? "YES" : "NO");
+        Console.WriteLine(IsBalanced(input3) ? "YES" : "NO");
+    }
+
+    static bool IsBalanced(string s)
+    {
+        Stack<char> stack = new Stack<char>();
+
+        foreach (char c in s)
+        {
+            if (c == ' ' || c == '\t' || c == '\n')
+                continue;
+
+            if (c == '(' || c == '{' || c == '[')
+            {
+                stack.Push(c);
+            }
+            else if (c == ')' || c == '}' || c == ']')
+            {
+                if (stack.Count == 0)
+                    return false;
+
+                char top = stack.Pop();
+                if (!IsMatchingPair(top, c))
+                    return false;
+            }
+        }
+
+        return stack.Count == 0;
+    }
+
+    static bool IsMatchingPair(char open, char close)
+    {
+        return (open == '(' && close == ')') ||
+               (open == '{' && close == '}') ||
+               (open == '[' && close == ']');
+    }
+}
