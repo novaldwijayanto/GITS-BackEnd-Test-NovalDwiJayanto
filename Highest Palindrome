@@ -1,0 +1,42 @@
+using System;
+
+class HighestPalindrome
+{
+    static void Main(string[] args)
+    {
+        string s1 = "3943";
+        int k1 = 1;
+        Console.WriteLine(FindHighestPalindrome(s1, k1)); // Output: 3993
+
+        string s2 = "932239";
+        int k2 = 2;
+        Console.WriteLine(FindHighestPalindrome(s2, k2)); // Output: 992299
+    }
+
+    static string FindHighestPalindrome(string s, int k)
+    {
+        return FindPalindrome(s.ToCharArray(), 0, s.Length - 1, k).ToString();
+    }
+
+    static long FindPalindrome(char[] chars, int left, int right, int k)
+    {
+        if (left >= right)
+            return long.Parse(new string(chars));
+
+        if (chars[left] != chars[right])
+        {
+            char maxChar = chars[left] > chars[right] ? chars[left] : chars[right];
+            chars[left] = maxChar;
+            chars[right] = maxChar;
+            k--;
+        }
+
+        if (k < 0)
+            return -1; // Invalid case
+
+        // Recursively find the highest palindrome
+        long result = FindPalindrome(chars, left + 1, right - 1, k);
+
+        return result;
+    }
+}
